@@ -7,6 +7,15 @@ const messages = [
 ];
 
 export default function App() {
+  return (
+    <>
+      <Steps />
+      <Calc />
+    </>
+  );
+}
+
+function Steps() {
   const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(1);
   function handlePrevious() {
@@ -51,5 +60,22 @@ export default function App() {
         </div>
       )}
     </>
+  );
+}
+
+function Calc() {
+  const [stepper, setStepper] = useState(1);
+  const [calcAdd, setCalcAdd] = useState(0);
+  const handleStepper = () => {
+    setStepper((cur) => cur + 1);
+  };
+  const handleCalcAdd = () => {
+    setCalcAdd((cur) => cur + stepper);
+  };
+  return (
+    <div style={{ padding: "30px" }}>
+      <h1 onClick={handleStepper}>Stepper: {stepper}</h1>
+      <h2 onClick={handleCalcAdd}>calcAdd: {calcAdd}</h2>
+    </div>
   );
 }
