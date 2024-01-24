@@ -7,25 +7,47 @@ const messages = [
 ];
 
 export default function App() {
+  const [step, setStep] = useState(1);
+  function handlePrevious() {
+    if (step > 1) setStep((s) => s - 1);
+    // setStep(step > 1 ? step - 1 : step); // Same as the above line of code
+  }
+  function handleNext() {
+    if (step < 3) setStep((s) => s + 1);
+    // setStep(step < 3 ? step + 1 : step); // Same as the above line of code
+  }
+
   return (
     <>
-      <Steps />
+      <Steps
+        step={step}
+        handlePrevious={handlePrevious}
+        handleNext={handleNext}
+      >
+        <StepMessage step={step}>
+          {messages.at(step - 1)}
+          <div className="buttons">
+            <Button
+              bgColor="#7950f2"
+              textColor="#fff"
+              handleClick={handlePrevious}
+            >
+              <span>👈</span>Previous
+            </Button>
+            <Button bgColor="#7950f2" textColor="#fff" handleClick={handleNext}>
+              Next<span>👉</span>
+            </Button>
+          </div>
+        </StepMessage>
+      </Steps>
       <Calc />
     </>
   );
 }
 
-function Steps() {
+function Steps({ step, handlePrevious, handleNext, children }) {
   const [isOpen, setIsOpen] = useState(true);
-  const [step, setStep] = useState(1);
-  function handlePrevious() {
-    if (step > 1) setStep((s) => s - 1);
-    // setStep(step >= 2 ? step - 1 : 1); // Same as the above line of code
-  }
-  function handleNext() {
-    if (step < 3) setStep((s) => s + 1);
-    // setStep(step <= 2 ? step + 1 : 3); // Same as the above line of code
-  }
+
   return (
     <>
       <button className="close" onClick={() => setIsOpen((cur) => !cur)}>
@@ -39,10 +61,9 @@ function Steps() {
             <div className={step >= 2 ? "active" : ""}>2</div>
             <div className={step >= 3 ? "active" : ""}>3</div>
           </div>
-          <div className="message">
-            Step {step}: {messages.at(step - 1)}
-          </div>
-          <div className="buttons">
+          {children}
+          {/* <StepMessage step={step}>{messages.at(step - 1)}</StepMessage> */}
+          {/* <div className="buttons">
             <Button
               bgColor="#7950f2"
               textColor="#fff"
@@ -53,11 +74,20 @@ function Steps() {
             <Button bgColor="#7950f2" textColor="#fff" handleClick={handleNext}>
               Next<span>👉</span>
             </Button>
-          </div>
+          </div> */}
           {/* ------------ */}
         </div>
       )}
     </>
+  );
+}
+
+function StepMessage({ step, children }) {
+  return (
+    <div className="message">
+      <h3>Step {step}</h3>
+      {children}
+    </div>
   );
 }
 
