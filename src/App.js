@@ -24,8 +24,7 @@ export default function App() {
         handlePrevious={handlePrevious}
         handleNext={handleNext}
       >
-        <StepMessage step={step}>
-          {messages.at(step - 1)}
+        <StepMessage step={step} message={messages.at(step - 1)}>
           <div className="buttons">
             <Button
               bgColor="#7950f2"
@@ -82,12 +81,15 @@ function Steps({ step, handlePrevious, handleNext, children }) {
   );
 }
 
-function StepMessage({ step, children }) {
+function StepMessage({ step, message, children }) {
   return (
-    <div className="message">
-      <h3>Step {step}</h3>
+    <>
+      <div className="message">
+        <h3>Step {step}</h3>
+        <p>{message}</p>
+      </div>
       {children}
-    </div>
+    </>
   );
 }
 
